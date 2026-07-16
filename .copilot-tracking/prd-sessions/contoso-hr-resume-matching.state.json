@@ -1,0 +1,56 @@
+{
+  "prdFile": "docs/prds/contoso-hr-resume-matching.md",
+  "lastAccessed": "2026-07-15T01:20:00Z",
+  "currentPhase": "build",
+  "questionsAsked": [
+    "initiative-name",
+    "high-level-flow",
+    "v1-scope-users",
+    "kpi-targets",
+    "v1-resume-document-standard",
+    "v1-requirement-document-standard",
+    "poc-guardrails"
+  ],
+  "answeredQuestions": {
+    "initiative-name": "Contoso HR Resume Matching",
+    "high-level-flow": "Employees upload resumes, AI extracts skills, AI matches against project requirements, recruiter reviews recommendations",
+    "v1-scope-users": "Internal employees only",
+    "kpi-targets": "Shortlist time from 5 days to 2 days, top-5 recommendation acceptance at least 70 percent, rationale visibility at least 90 percent",
+    "v1-resume-document-standard": "Use token-efficient UTF-8 TXT format to reduce processing cost",
+    "v1-requirement-document-standard": "Use token-efficient UTF-8 TXT format to reduce processing cost",
+    "poc-guardrails": "Deferred"
+  },
+  "referencesProcessed": [
+    {
+      "file": "docs/brds/contoso-hr-resume-matching-brd.md",
+      "status": "analyzed",
+      "timestamp": "2026-07-15T01:20:00Z",
+      "keyFindings": "Confirmed scope, goals, requirements BR-001 to BR-005, and v1 document standards",
+      "integratedSections": [
+        "executive-summary",
+        "scope",
+        "functional-requirements",
+        "non-functional-requirements",
+        "metrics"
+      ],
+      "conflicts": [],
+      "pendingActions": []
+    }
+  ],
+  "nextActions": [
+    "Review PRD with sponsor and recruiter lead",
+    "Convert FRs into implementation backlog items",
+    "Plan phase-2 integration and deferred guardrails"
+  ],
+  "qualityChecks": [
+    "goals-defined",
+    "scope-clarified",
+    "requirements-traceability-established",
+    "metrics-defined"
+  ],
+  "userPreferences": {
+    "detail-level": "comprehensive",
+    "question-style": "structured",
+    "audience": "technical-program-manager-beginner-friendly"
+  }
+}
