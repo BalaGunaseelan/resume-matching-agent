@@ -1,0 +1,42 @@
+{
+  "brdFile": "docs/brds/contoso-hr-resume-matching-brd.md",
+  "lastAccessed": "2026-07-15T01:00:00Z",
+  "currentPhase": "requirements-elicitation",
+  "questionsAsked": [
+    "initiative-name",
+    "business-problem",
+    "business-driver",
+    "high-level-requirements",
+    "v1-user-groups",
+    "v1-resume-document-standard",
+    "v1-project-requirements-source",
+    "kpi-confirmation",
+    "v1-project-document-standard",
+    "poc-guardrails-timing"
+  ],
+  "answeredQuestions": {
+    "initiative-name": "Contoso HR Resume Matching",
+    "high-level-requirements": "Employees upload resumes. AI extracts skills. AI matches against project requirements. Recruiter reviews recommendations.",
+    "v1-user-groups": "Internal employees only for resume upload",
+    "v1-resume-document-standard": "Use token-efficient UTF-8 TXT format for resumes in v1",
+    "v1-project-requirements-source": "In v1, project requirements are uploaded as documents; later phases will integrate with the source system",
+    "kpi-confirmation": "User agreed with proposed KPI baselines and targets",
+    "v1-project-document-standard": "Use token-efficient format to minimize processing cost; v1 uses UTF-8 TXT for project requirement documents",
+    "poc-guardrails-timing": "PoC guardrails deferred for now"
+  },
+  "referencesProcessed": [],
+  "nextActions": [
+    "Review BRD draft with HR sponsor and recruiter lead",
+    "Convert BRD requirements into v1 work items and milestones",
+    "Capture deferred guardrails in phase 2 planning"
+  ],
+  "qualityChecks": [
+    "objectives-defined",
+    "scope-clarified",
+    "requirements-traceability-verified"
+  ],
+  "userPreferences": {
+    "detail-level": "comprehensive",
+    "question-style": "structured"
+  }
+}

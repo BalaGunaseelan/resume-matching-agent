@@ -1,0 +1,19 @@
+{
+  "backlogFile": "docs/backlog/contoso-hr-resume-matching-backlog.md",
+  "lastAccessed": "2026-07-15T01:40:00Z",
+  "currentPhase": "backlog-breakdown",
+  "sourceArtifacts": [
+    "docs/brds/contoso-hr-resume-matching-brd.md",
+    "docs/prds/contoso-hr-resume-matching.md"
+  ],
+  "nextActions": [
+    "Confirm whether to convert backlog into Azure DevOps work items",
+    "Decide whether phase-2 integration becomes its own epic now",
+    "Review feature ordering with sponsor and recruiter lead"
+  ],
+  "qualityChecks": [
+    "traceability-established",
+    "epic-and-story-breakdown-complete",
+    "pilot-sequencing-defined"
+  ]
+}

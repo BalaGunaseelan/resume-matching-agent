@@ -1,0 +1,31 @@
+IssueType,ID,Title,Parent,Milestone,Priority,Area,Dependencies,AcceptanceCriteria
+Epic,E-001,Intake and Document Normalization,,M1 Intake complete,high,intake,,Users can upload TXT resumes and TXT requirement documents end to end
+Epic,E-002,AI Extraction and Matching,,M2 Matching complete,high,matching,E-001,System extracts skills and returns ranked recommendations
+Epic,E-003,Recruiter Review and Rationale,,M3 Review complete,high,review,E-002,Recruiters can review rationale and record final decisions
+Epic,E-004,Telemetry Security and Operations,,M4 Pilot ready,high,platform,E-001|E-002|E-003,Telemetry security and monitoring are active
+Feature,F-001,Resume Upload,E-001,M1 Intake complete,high,intake,,Allow internal employees to upload UTF-8 TXT resumes up to 1 MB
+Feature,F-002,Requirement Document Upload,E-001,M1 Intake complete,high,intake,,Allow recruiters or requestors to upload UTF-8 TXT requirements up to 1 MB
+Feature,F-003,Input Validation and Storage,E-001,M1 Intake complete,high,intake,F-001|F-002,Validate type encoding and size before processing
+Feature,F-101,Resume Skill Extraction,E-002,M2 Matching complete,high,matching,F-001,Extract and persist skills from uploaded resumes
+Feature,F-102,Requirement Text Parsing,E-002,M2 Matching complete,high,matching,F-002,Normalize requirement TXT content for matching
+Feature,F-103,Candidate-to-Requirement Matching,E-002,M2 Matching complete,high,matching,F-101|F-102,Generate ranked top-5 recommendations
+Feature,F-201,Review Recommendations,E-003,M3 Review complete,high,review,F-103,Display ranked candidates with decision actions
+Feature,F-202,Recommendation Rationale,E-003,M3 Review complete,high,review,F-103,Display rationale confidence and skill gaps
+Feature,F-203,Decision Capture,E-003,M3 Review complete,high,review,F-201|F-202,Persist recruiter decisions with audit fields
+Feature,F-301,Event Telemetry,E-004,M4 Pilot ready,high,platform,F-001|F-101|F-103|F-203,Emit trace events with correlation IDs
+Feature,F-302,Access Control,E-004,M4 Pilot ready,high,platform,F-001|F-002|F-201,Enforce RBAC and audit denied access
+Feature,F-303,Latency and Availability Monitoring,E-004,M4 Pilot ready,medium,platform,F-101|F-103,Expose p90 latency and weekly availability
+Feature,F-304,Cost Efficiency Tracking,E-004,M4 Pilot ready,high,platform,F-002|F-102,Report average tokens and estimated weekly cost
+Story,S-001,Upload TXT Resume,F-001,M1 Intake complete,high,intake,,Given UTF-8 TXT <= 1 MB upload then store and set Ready for processing within 30 seconds
+Story,S-002,Upload Requirement TXT,F-002,M1 Intake complete,high,intake,,Given UTF-8 TXT <= 1 MB upload then store and set Ready for matching
+Story,S-003,Enforce Input Validation,F-003,M1 Intake complete,high,intake,S-001|S-002,Invalid type encoding or oversize files are rejected with explicit message and no processing job
+Story,S-101,Extract Skills from Resume,F-101,M2 Matching complete,high,matching,S-001,Given Ready for processing resume extract and persist skills with timestamp and source resume id
+Story,S-102,Parse Requirement Text,F-102,M2 Matching complete,high,matching,S-002,Given Ready for matching requirement parse and persist normalized terms linked to request id
+Story,S-103,Generate Top-5 Ranked Recommendations,F-103,M2 Matching complete,high,matching,S-101|S-102,Given extracted skills and parsed requirements return unique top-5 list in descending score order
+Story,S-201,Review Ranked Candidates,F-201,M3 Review complete,high,review,S-103,Given completed match display candidate name rank score and matched skills
+Story,S-202,View Recommendation Rationale,F-202,M3 Review complete,high,review,S-103,Given recommendation entry show matched skills missing critical skills and confidence signal
+Story,S-203,Save Recruiter Decision with Audit Fields,F-203,M3 Review complete,high,review,S-201|S-202,Given recruiter decision persist decision rationale reviewer id and timestamp
+Story,S-301,Emit End-to-End Trace Events,F-301,M4 Pilot ready,high,platform,S-001|S-101|S-103|S-203,Each upload extraction match and review action emits one trace event with correlation id
+Story,S-302,Enforce RBAC and Audit Denials,F-302,M4 Pilot ready,high,platform,S-001|S-002|S-201,Unauthorized access returns HTTP 403 and writes audit event
+Story,S-303,Track Latency and Availability,F-303,M4 Pilot ready,medium,platform,S-101|S-103,Dashboard shows processing p90 latency and weekly availability
+Story,S-304,Track TXT Processing Cost,F-304,M4 Pilot ready,high,platform,S-002|S-102,Weekly metrics include average tokens per requirement and estimated processing cost
