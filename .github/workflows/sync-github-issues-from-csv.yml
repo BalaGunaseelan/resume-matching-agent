@@ -1,0 +1,52 @@
+name: Sync GitHub Issues From CSV
+
+on:
+  workflow_dispatch:
+    inputs:
+      allow_close_stale:
+        description: Close managed issues that are no longer present in the CSV
+        required: false
+        default: false
+        type: boolean
+  push:
+    branches:
+      - main
+    paths:
+      - docs/backlog/github-issue-backlog-v1.csv
+      - docs/backlog/scripts/sync_github_issues.py
+      - .github/workflows/sync-github-issues-from-csv.yml
+
+concurrency:
+  group: sync-github-issues-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync issues from CSV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          ALLOW_CLOSE="${{ github.event_name == 'workflow_dispatch' && inputs.allow_close_stale || 'false' }}"
+          if [ "$ALLOW_CLOSE" = "true" ]; then
+            python docs/backlog/scripts/sync_github_issues.py \
+              --csv docs/backlog/github-issue-backlog-v1.csv \
+              --allow-close
+          else
+            python docs/backlog/scripts/sync_github_issues.py \
+              --csv docs/backlog/github-issue-backlog-v1.csv
+          fi

@@ -1,0 +1,13 @@
+Metadata-Version: 2.4
+Name: resume-matching-agent
+Version: 0.1.0
+Summary: PoC intake API for resume matching
+Requires-Python: >=3.11
+License-File: LICENSE
+Requires-Dist: fastapi<1.0.0,>=0.116.0
+Requires-Dist: uvicorn[standard]<1.0.0,>=0.35.0
+Requires-Dist: python-multipart<1.0.0,>=0.0.20
+Provides-Extra: dev
+Requires-Dist: pytest<9.0.0,>=8.3.0; extra == "dev"
+Requires-Dist: httpx<1.0.0,>=0.28.0; extra == "dev"
+Dynamic: license-file
