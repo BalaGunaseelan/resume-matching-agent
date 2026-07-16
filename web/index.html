@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contoso HR Resume Matching</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="left-rail" aria-label="Primary navigation">
+        <div class="brand-block">
+          <p class="brand-eyebrow">Contoso HR</p>
+          <h1 class="brand-title">Resume Matching</h1>
+          <p class="brand-subtitle">v1 PoC - TXT intake</p>
+        </div>
+        <nav>
+          <button id="nav-signin" class="nav-item is-active" type="button">Sign In</button>
+          <button id="nav-upload" class="nav-item" type="button" disabled>Resume Upload</button>
+        </nav>
+      </aside>
+
+      <main class="main-pane" id="main-content">
+        <header class="top-bar">
+          <div>
+            <p class="top-bar-label">Desktop Experience</p>
+            <h2 class="top-bar-title">Talent Intake Console</h2>
+          </div>
+          <div class="api-block">
+            <label for="api-base">API Base</label>
+            <input id="api-base" type="text" value="http://127.0.0.1:8000" />
+            <button id="save-api-base" class="btn btn-quiet" type="button">Save</button>
+          </div>
+        </header>
+
+        <section id="page-signin" class="panel" aria-labelledby="signin-title">
+          <h3 id="signin-title">Sign In</h3>
+          <p class="panel-subtext">
+            Select your role to continue. This PoC keeps role selection explicit to support all personas.
+          </p>
+          <form id="signin-form" class="form-grid">
+            <label for="display-name">Display Name</label>
+            <input id="display-name" name="displayName" type="text" required maxlength="80" />
+
+            <label for="role">Role</label>
+            <select id="role" name="role" required>
+              <option value="">Select a role</option>
+              <option value="internal-employee">Internal Employee</option>
+              <option value="recruiter">Recruiter</option>
+              <option value="project-requestor">Project Requestor</option>
+            </select>
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Continue to Resume Upload</button>
+            </div>
+          </form>
+        </section>
+
+        <section id="page-upload" class="panel is-hidden" aria-labelledby="upload-title">
+          <h3 id="upload-title">Resume Upload</h3>
+          <p class="panel-subtext">
+            Upload UTF-8 .txt files up to 1 MB. If the API is unavailable, upload metadata is stored locally for retry.
+          </p>
+
+          <div class="session-card" aria-live="polite">
+            <p><span class="muted">Signed in as:</span> <strong id="whoami-name">-</strong></p>
+            <p><span class="muted">Role:</span> <strong id="whoami-role">-</strong></p>
+          </div>
+
+          <form id="upload-form" class="form-grid" enctype="multipart/form-data">
+            <label for="resume-file">Resume TXT File</label>
+            <input id="resume-file" name="file" type="file" accept=".txt,text/plain" required />
+
+            <div class="form-actions">
+              <button class="btn btn-primary" type="submit">Upload Resume</button>
+              <button id="signout" class="btn btn-quiet" type="button">Sign Out</button>
+            </div>
+          </form>
+
+          <div id="upload-result" class="result-box" aria-live="polite"></div>
+        </section>
+      </main>
+    </div>
+
+    <script src="./app.js" type="module"></script>
+  </body>
+  </html>

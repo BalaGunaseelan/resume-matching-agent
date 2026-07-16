@@ -65,6 +65,11 @@ def create_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Print planned operations without writing to GitHub.",
     )
+    parser.add_argument(
+        "--allow-close",
+        action="store_true",
+        help="Allow closing managed issues that are missing from the CSV.",
+    )
     return parser
 
 
@@ -317,6 +322,7 @@ def sync_issues(
     token: str,
     rows: list[BacklogRow],
     dry_run: bool,
+    allow_close: bool,
 ) -> None:
     ensure_label(base_repo_api, token, "managed:backlog-csv", "0366d6", dry_run)
 
@@ -400,6 +406,13 @@ def sync_issues(
 
     csv_ids = {row.backlog_id for row in rows}
     stale_ids = sorted(set(managed_by_backlog_id.keys()).difference(csv_ids))
+    if stale_ids and not allow_close:
+        print(
+            f"Skipping close of {len(stale_ids)} stale managed issue(s); "
+            "rerun with --allow-close to enable closure."
+        )
+        return
+
     for stale_id in stale_ids:
         issue_number = managed_by_backlog_id[stale_id]["number"]
         if dry_run:
@@ -414,7 +427,7 @@ def sync_issues(
         print(f"Closed issue #{issue_number}; backlog ID {stale_id} removed from CSV")
 
 
-def run(csv_path: Path, dry_run: bool) -> int:
+def run(csv_path: Path, dry_run: bool, allow_close: bool) -> int:
     token = ("" if "GITHUB_TOKEN" not in os_environ() else os_environ()["GITHUB_TOKEN"]).strip()
     repository = (
         "" if "GITHUB_REPOSITORY" not in os_environ() else os_environ()["GITHUB_REPOSITORY"]
@@ -431,7 +444,7 @@ def run(csv_path: Path, dry_run: bool) -> int:
     base_repo_api = f"https://api.github.com/repos/{owner}/{repo}"
 
     rows = parse_backlog_csv(csv_path)
-    sync_issues(base_repo_api, token, rows, dry_run)
+    sync_issues(base_repo_api, token, rows, dry_run, allow_close)
     return EXIT_SUCCESS
 
 
@@ -446,7 +459,7 @@ def main() -> int:
     parser = create_parser()
     args = parser.parse_args()
     try:
-        return run(args.csv, args.dry_run)
+        return run(args.csv, args.dry_run, args.allow_close)
     except KeyboardInterrupt:
         print("Interrupted by user", file=sys.stderr)
         return 130
