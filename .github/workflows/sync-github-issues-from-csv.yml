@@ -1,0 +1,33 @@
+name: Sync GitHub Issues From CSV
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - docs/backlog/github-issue-backlog-v1.csv
+      - docs/backlog/scripts/sync_github_issues.py
+      - .github/workflows/sync-github-issues-from-csv.yml
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Sync issues from CSV
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python docs/backlog/scripts/sync_github_issues.py \
+            --csv docs/backlog/github-issue-backlog-v1.csv
