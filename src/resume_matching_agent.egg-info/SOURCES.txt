@@ -2,6 +2,7 @@ LICENSE
 README.md
 pyproject.toml
 src/resume_matching_agent/__init__.py
+src/resume_matching_agent/github_ruleset.py
 src/resume_matching_agent.egg-info/PKG-INFO
 src/resume_matching_agent.egg-info/SOURCES.txt
 src/resume_matching_agent.egg-info/dependency_links.txt
@@ -9,3 +10,4 @@ src/resume_matching_agent.egg-info/requires.txt
 src/resume_matching_agent.egg-info/top_level.txt
 src/resume_matching_agent/api/main.py
 tests/test_api.py
+tests/test_github_ruleset.py

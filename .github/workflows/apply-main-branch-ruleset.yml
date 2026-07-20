@@ -29,15 +29,19 @@ jobs:
         run: python -m pip install -e .
 
       - name: Validate admin token
+        id: check_token
         env:
           RULESET_ADMIN_TOKEN: ${{ secrets.RULESET_ADMIN_TOKEN }}
         run: |
           if [ -z "$RULESET_ADMIN_TOKEN" ]; then
-            echo "RULESET_ADMIN_TOKEN secret is required to apply repository rulesets." >&2
-            exit 1
+            echo "RULESET_ADMIN_TOKEN secret is not set. Skipping ruleset application." >&2
+            echo "token_available=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "token_available=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Apply ruleset
+        if: steps.check_token.outputs.token_available == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.RULESET_ADMIN_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
