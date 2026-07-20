@@ -38,7 +38,7 @@ def github_request(
     data = None
     headers = {
         "Accept": "application/vnd.github+json",
-        "Authorization": f"******",
+        "Authorization": f"Bearer {token}",
         "X-GitHub-Api-Version": "2022-11-28",
         "User-Agent": "resume-matching-agent-ruleset-script",
     }
