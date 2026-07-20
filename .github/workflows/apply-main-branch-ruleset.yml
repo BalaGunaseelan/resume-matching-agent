@@ -1,0 +1,46 @@
+name: Apply Main Branch Ruleset
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/rulesets/main-branch-protection.yml
+      - .github/workflows/apply-main-branch-ruleset.yml
+      - src/resume_matching_agent/github_ruleset.py
+
+permissions:
+  contents: read
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: python -m pip install -e .
+
+      - name: Validate admin token
+        env:
+          RULESET_ADMIN_TOKEN: ${{ secrets.RULESET_ADMIN_TOKEN }}
+        run: |
+          if [ -z "$RULESET_ADMIN_TOKEN" ]; then
+            echo "RULESET_ADMIN_TOKEN secret is required to apply repository rulesets." >&2
+            exit 1
+          fi
+
+      - name: Apply ruleset
+        env:
+          GITHUB_TOKEN: ${{ secrets.RULESET_ADMIN_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: >
+          python -m resume_matching_agent.github_ruleset
+          --config .github/rulesets/main-branch-protection.yml
